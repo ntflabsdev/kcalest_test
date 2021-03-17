@@ -7,14 +7,21 @@ import {
   IonItem,
   IonRow,
   IonText,
+  IonChip,
+  IonAvatar,
+  IonIcon,
+  IonLabel,
 } from "@ionic/react";
+import { closeCircle, filterSharp } from "ionicons/icons";
 
 import React, { useRef } from "react";
 import styles from "./SearchBox.module.css";
 
 interface propType {
   getItemsHandler: (event: any, calories: any) => void;
+  removeFilter: (id: string) => void;
   errorMessage: string;
+  filters: string[];
 }
 
 const SearchBox: React.FC<propType> = (props) => {
@@ -44,6 +51,16 @@ const SearchBox: React.FC<propType> = (props) => {
                 <IonText color="warning">{props.errorMessage}</IonText>
               </IonItem>
             )}
+
+            {props.filters.map(filter => {
+              return (<IonChip>
+                <IonAvatar>
+                  <img src={require('../../assets/icons/Vegan.png')} />
+                </IonAvatar>
+                <IonLabel>Vegan</IonLabel>
+                <IonIcon onClick={() => props.removeFilter("vegan")} icon={closeCircle} />
+              </IonChip>);
+            })}
           </IonCardContent>
         </IonCard>
       </IonCol>

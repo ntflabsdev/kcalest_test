@@ -26,7 +26,8 @@ const Home: React.FC = () => {
   const [searchItems, setSearchItems] = useState<ISearchItem[] | null>(null);
   const [searchBoxErrorMessage, setSearchBoxErrorMessage] = useState<string>(
     ""
-  );
+  ); 
+  const [filters, setFilters] = useState(['vegetarian']);
   let cachedUserFavourites: String[] = getCachedFavourites();
 
   const getItemsHandler = (event: MouseEvent, calories: any) => {
@@ -80,6 +81,10 @@ const Home: React.FC = () => {
     setSelectedItem(item);
   };
 
+  const removeFilter = (id: string) => {
+    console.log(id);
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -99,6 +104,8 @@ const Home: React.FC = () => {
           <SearchBox
             getItemsHandler={getItemsHandler}
             errorMessage={searchBoxErrorMessage}
+            removeFilter={removeFilter}
+            filters = {filters}
           />
           <SearchItemList
             searchItems={searchItems}
