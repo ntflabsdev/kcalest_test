@@ -27,7 +27,7 @@ const Home: React.FC = () => {
   const [searchBoxErrorMessage, setSearchBoxErrorMessage] = useState<string>(
     ""
   ); 
-  const [filters, setFilters] = useState(['vegetarian']);
+  const [filters, setFilters] = useState([{id:'vegan', image:'Vegan.png'}, {id:'vegetarian', image:'Vegetarian.png'}]);
   let cachedUserFavourites: String[] = getCachedFavourites();
 
   const getItemsHandler = (event: MouseEvent, calories: any) => {
@@ -82,7 +82,9 @@ const Home: React.FC = () => {
   };
 
   const removeFilter = (id: string) => {
-    console.log(id);
+    const filtersClone = [...filters];
+    const newFilters = filtersClone.filter(filter => filter.id !== id);
+    setFilters(newFilters);
   }
 
   return (

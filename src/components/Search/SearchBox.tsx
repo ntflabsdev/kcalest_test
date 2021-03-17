@@ -16,12 +16,12 @@ import { closeCircle, filterSharp } from "ionicons/icons";
 
 import React, { useRef } from "react";
 import styles from "./SearchBox.module.css";
-
+import { IFilter } from "../../models/Filters";
 interface propType {
   getItemsHandler: (event: any, calories: any) => void;
   removeFilter: (id: string) => void;
   errorMessage: string;
-  filters: string[];
+  filters: IFilter[];
 }
 
 const SearchBox: React.FC<propType> = (props) => {
@@ -55,10 +55,10 @@ const SearchBox: React.FC<propType> = (props) => {
             {props.filters.map(filter => {
               return (<IonChip>
                 <IonAvatar>
-                  <img src={require('../../assets/icons/Vegan.png')} />
+                  <img src={require(`../../assets/icons/${filter.image}`)} />
                 </IonAvatar>
-                <IonLabel>Vegan</IonLabel>
-                <IonIcon onClick={() => props.removeFilter("vegan")} icon={closeCircle} />
+                <IonLabel>{filter.id}</IonLabel>
+                <IonIcon onClick={() => props.removeFilter(filter.id)} icon={closeCircle} />
               </IonChip>);
             })}
           </IonCardContent>
