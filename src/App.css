@@ -1,0 +1,17 @@
+@media (min-width: 1025px) {
+  
+    .modal-wrapper {
+        --width: 40%;
+        --height: 95%;
+      }
+    
+  }
+  
+  @media (min-width: 800px) and (max-width: 1024px){
+  
+    .modal-wrapper {
+        --width: 50%;
+        --height: 95%;
+      }
+    
+  }

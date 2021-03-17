@@ -1,0 +1,7 @@
+{
+  "name": "kcalestre",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

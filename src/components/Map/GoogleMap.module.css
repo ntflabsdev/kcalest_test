@@ -1,0 +1,15 @@
+.GoogleMaps {
+  position: absolute;
+  height: 50vh;
+  width: 100%;
+  background-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .GoogleMaps {
+    position: absolute;
+    height: 45vh;
+    width: 100%;
+    background-color: transparent;
+  }
+}

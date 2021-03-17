@@ -1,0 +1,54 @@
+.Toolbar {
+  background: linear-gradient(
+    -60deg,
+    #ffa012e8 30%,
+    var(--ion-color-primary) 60%
+  );
+}
+
+.ToolbarTitle {
+  color: var(--ion-color-primary-contrast, white);
+}
+
+.ModalTopContent {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.Avatar {
+  padding: 25px 0px;
+  width: 33%;
+  height: auto;
+}
+
+.gooleMapsCol {
+  padding: 10%;
+  margin: auto  ;
+}
+
+
+@media (max-width: 768px) {
+  .gooleMapsCol {
+    padding: 0px;
+    margin: auto  ;
+  }
+}
+
+@media (min-width: 1025px) {
+  
+  .modal-wrapper {
+      --width: 40%;
+      --height: 95%;
+    }
+  
+}
+
+@media (min-width: 800px) and (max-width: 1024px){
+
+  .modal-wrapper {
+      --width: 50%;
+      --height: 95%;
+    }
+  
+}

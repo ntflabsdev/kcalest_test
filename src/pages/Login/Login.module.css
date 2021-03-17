@@ -1,0 +1,61 @@
+body, html {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .Toolbar {
+    background: linear-gradient(
+      -60deg,
+      #ffa012e8 30%,
+      var(--ion-color-primary) 60%
+    );
+  }
+  
+  .ToolbarTitle {
+    color: var(--ion-color-primary-contrast, white);
+  }
+  
+  .Grid {
+    background-image: url("../../assets/kcalest-background-small-cream-cropped.png");
+    background-repeat: repeat-y;
+    background-size: 100%;
+    min-height: 100%;
+    height: auto;
+    width: 100%;
+  }
+  
+  .LandingPageSearchBoxRow {
+    padding-top: 31vh;
+  }
+  
+  .LandingPageSearchBoxCol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px;
+  }
+  
+  .LandingPageSearchBoxCard {
+    padding: 20px;
+  }
+  
+  .searchItemCardTitle {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  @media (max-width: 767px) {
+    .LandingPageSearchBoxRow {
+      padding-top: 0vh;
+      height: auto;
+    }
+  
+    .LandingPageSearchBoxCard {
+      padding: 0px;
+    }
+  
+    .Grid {
+      background-image: url("../../assets/kcalest-background-vertical-cream-marked.png");
+    }
+  }
+  

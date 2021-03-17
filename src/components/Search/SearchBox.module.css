@@ -1,0 +1,25 @@
+.LandingPageSearchBoxRow {
+    padding-top: 31vh;
+  }
+  
+  .LandingPageSearchBoxCol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px;
+  }
+  
+  .LandingPageSearchBoxCard {
+    padding: 20px;
+  }
+
+  @media (max-width: 767px) {
+    .LandingPageSearchBoxRow {
+      padding-top: 0vh;
+      height: auto;
+    }
+  
+    .LandingPageSearchBoxCard {
+      padding: 0px;
+    }
+  }
