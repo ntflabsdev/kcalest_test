@@ -20,6 +20,7 @@ import {
   getCachedFavourites,
 } from "../../services/FavouritesService";
 import { Plugins } from "@capacitor/core";
+import { IFilter } from "../../models/Filters";
 
 const Home: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<ISearchItem | null>(null);
@@ -28,7 +29,7 @@ const Home: React.FC = () => {
   const [searchBoxErrorMessage, setSearchBoxErrorMessage] = useState<string>(
     ""
   );
-  const [filters, setFilters] = useState([
+  const [filters, setFilters] = useState<IFilter[]>([
     { id: "vegan", image: "Vegan.png" },
     { id: "vegetarian", image: "Vegetarian.png" },
   ]);
@@ -96,6 +97,17 @@ const Home: React.FC = () => {
     setSelectedItem(item);
   };
 
+  const setFilter = (id: string) => {
+    const filtersClone = [...filters];
+    const isDuplicateValue = (filtersClone.filter(filter => filter.id === id)).length > 0;
+    if(isDuplicateValue) {
+      return;
+    }
+    const newFilter= {id, image:'Vegan.png'};
+    filtersClone.push(newFilter);
+    setFilters(filtersClone);
+  };
+
   const removeFilter = (id: string) => {
     const filtersClone = [...filters];
     const newFilters = filtersClone.filter((filter) => filter.id !== id);
@@ -135,6 +147,7 @@ const Home: React.FC = () => {
           <SearchBox
             getItemsHandler={getItemsHandler}
             errorMessage={searchBoxErrorMessage}
+            setFilter={setFilter}
             removeFilter={removeFilter}
             filters={filters}
             getCoordinates={getCoordinates}

@@ -83,7 +83,6 @@ const App: React.FC = () => {
   );
 
   let outlet = router;
-console.log(isPlatform("mobile"));
   if (isPlatform("mobile")) {
     outlet = (
       <IonTabs>
