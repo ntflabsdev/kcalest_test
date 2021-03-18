@@ -18,14 +18,13 @@ import { closeCircle, filterSharp } from "ionicons/icons";
 
 import React, { useRef, useState } from "react";
 import styles from "./SearchBox.module.css";
-import { IFilter } from "../../models/Filters";
 
 interface propType {
   getItemsHandler: (event: any, calories: any) => void;
   setFilter: (id: string) => void;
   removeFilter: (id: string) => void;
   errorMessage: string;
-  filters: IFilter[];
+  filters: string[];
   getCoordinates: () => void;
 }
 
@@ -153,13 +152,13 @@ const SearchBox: React.FC<propType> = (props) => {
 
             {props.filters.map((filter) => {
               return (
-                <IonChip key={filter.id}>
+                <IonChip key={filter}>
                   <IonAvatar>
-                    <img src={require(`../../assets/icons/${filter.image}`)} />
+                    <img src={require(`../../assets/icons/Vegan.png`)} />
                   </IonAvatar>
-                  <IonLabel>{filter.id}</IonLabel>
+                  <IonLabel>{filter}</IonLabel>
                   <IonIcon
-                    onClick={() => props.removeFilter(filter.id)}
+                    onClick={() => props.removeFilter(filter)}
                     icon={closeCircle}
                   />
                 </IonChip>

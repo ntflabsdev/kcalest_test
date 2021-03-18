@@ -20,7 +20,6 @@ import {
   getCachedFavourites,
 } from "../../services/FavouritesService";
 import { Plugins } from "@capacitor/core";
-import { IFilter } from "../../models/Filters";
 
 const Home: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<ISearchItem | null>(null);
@@ -29,10 +28,7 @@ const Home: React.FC = () => {
   const [searchBoxErrorMessage, setSearchBoxErrorMessage] = useState<string>(
     ""
   );
-  const [filters, setFilters] = useState<IFilter[]>([
-    { id: "vegan", image: "Vegan.png" },
-    { id: "vegetarian", image: "Vegetarian.png" },
-  ]);
+  const [filters, setFilters] = useState<string[]>([]);
   const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
   let cachedUserFavourites: String[] = getCachedFavourites();
 
@@ -99,18 +95,19 @@ const Home: React.FC = () => {
 
   const setFilter = (id: string) => {
     const filtersClone = [...filters];
-    const isDuplicateValue = (filtersClone.filter(filter => filter.id === id)).length > 0;
-    if(isDuplicateValue) {
-      return;
+    const isDuplicateValue =
+      filtersClone.filter((filter) => filter === id).length > 0;
+    if (!isDuplicateValue) {
+      filtersClone.push(id);
+      setFilters(filtersClone);
+    } else {
+      removeFilter(id);
     }
-    const newFilter= {id, image:'Vegan.png'};
-    filtersClone.push(newFilter);
-    setFilters(filtersClone);
   };
 
   const removeFilter = (id: string) => {
     const filtersClone = [...filters];
-    const newFilters = filtersClone.filter((filter) => filter.id !== id);
+    const newFilters = filtersClone.filter((filter) => filter !== id);
     setFilters(newFilters);
   };
 
