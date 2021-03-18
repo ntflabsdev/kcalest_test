@@ -19,7 +19,7 @@ import {
   updateFavourites,
   getCachedFavourites,
 } from "../../services/FavouritesService";
-
+import { Plugins } from "@capacitor/core";
 
 const Home: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<ISearchItem | null>(null);
@@ -28,14 +28,18 @@ const Home: React.FC = () => {
   const [searchBoxErrorMessage, setSearchBoxErrorMessage] = useState<string>(
     ""
   );
-  const [filters, setFilters] = useState([{ id: 'vegan', image: 'Vegan.png' }, { id: 'vegetarian', image: 'Vegetarian.png' }]);
+  const [filters, setFilters] = useState([
+    { id: "vegan", image: "Vegan.png" },
+    { id: "vegetarian", image: "Vegetarian.png" },
+  ]);
+  const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
   let cachedUserFavourites: String[] = getCachedFavourites();
 
   const getItemsHandler = (event: MouseEvent, calories: any) => {
     setSearchBoxErrorMessage("");
     const sanitisedCalories = Number.parseInt(calories);
-    let lowerLimit = sanitisedCalories / 100 * 90;
-    let upperLimit = sanitisedCalories / 100 * 110;
+    let lowerLimit = (sanitisedCalories / 100) * 90;
+    let upperLimit = (sanitisedCalories / 100) * 110;
     if (!!calories && !!sanitisedCalories) {
       if (sanitisedCalories <= 250) {
         upperLimit = sanitisedCalories + 25;
@@ -54,12 +58,15 @@ const Home: React.FC = () => {
           if (items.length > 0) {
             const fiveRandomItems = [];
             for (let i = 0; i < 5; i++) {
-              const randomIndex = Number.parseInt((Math.random() * items.length).toFixed(0));
+              const randomIndex = Number.parseInt(
+                (Math.random() * items.length).toFixed(0)
+              );
               fiveRandomItems.push(items[randomIndex]);
-            } 
+            }
             setSearchItems(fiveRandomItems as ISearchItem[]);
-          } else { 
-            setSearchBoxErrorMessage("No items found within this range") }
+          } else {
+            setSearchBoxErrorMessage("No items found within this range");
+          }
         });
     } else {
       setSearchBoxErrorMessage("please enter a number...");
@@ -91,9 +98,22 @@ const Home: React.FC = () => {
 
   const removeFilter = (id: string) => {
     const filtersClone = [...filters];
-    const newFilters = filtersClone.filter(filter => filter.id !== id);
+    const newFilters = filtersClone.filter((filter) => filter.id !== id);
     setFilters(newFilters);
-  }
+  };
+
+  const getCoordinates = () => {
+    Plugins.Geolocation.getCurrentPosition()
+      .then((geoPosition) => {
+        setCoordinates({
+          lat: geoPosition.coords.latitude,
+          lng: geoPosition.coords.longitude,
+        });
+      })
+      .catch((err) => {
+        console.log("didn't resolve geolocation");
+      });
+  };
 
   return (
     <IonPage>
@@ -109,7 +129,7 @@ const Home: React.FC = () => {
           isAuthenticated={!!firebaseAuth.currentUser}
           onCancel={searchItemModalCloseHandler}
           model={{ item: selectedItem, favourites: cachedUserFavourites }}
-          coordinates = {{lat: 1, lng: 2}}
+          coordinates={{ lat: 1, lng: 2 }}
         />
         <IonGrid className={styles.Grid}>
           <SearchBox
@@ -117,6 +137,7 @@ const Home: React.FC = () => {
             errorMessage={searchBoxErrorMessage}
             removeFilter={removeFilter}
             filters={filters}
+            getCoordinates={getCoordinates}
           />
           <SearchItemList
             searchItems={searchItems}
@@ -129,19 +150,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-// console.log("Asking for users permissions")
-// // if(!Capacitor.isPluginAvailable('GeoLocation') && (isPlatform('mobile'))) {
-// //   console.log('Could not fetch location')
-// //   return
-// // }
-// const coordinates = useRef<{ lat: number; lng: number } | null>(null);
-// Plugins.Geolocation.getCurrentPosition()
-//   .then((geoPosition) => {
-//     coordinates.current = {
-//       lat: geoPosition.coords.latitude,
-//       lng: geoPosition.coords.longitude,
-//     };
-//   })
-//   .catch((err) => {
-//     console.log("didn't resolve geolocation");
-//   });

@@ -26,16 +26,22 @@ interface propType {
   removeFilter: (id: string) => void;
   errorMessage: string;
   filters: IFilter[];
+  getCoordinates: () => void;
 }
 
 const SearchBox: React.FC<propType> = (props) => {
   const calories = useRef<HTMLIonInputElement>(null);
   const [locationSelector, setLocationSelector] = useState("noLocation");
+
   const onSegmentChange = (value: string | undefined) => {
     if(value != undefined) {
       setLocationSelector(value);
+      if(value === "userLocation") {
+        props.getCoordinates();
+      }
     }
   }
+
   return (
     <IonRow className={styles.LandingPageSearchBoxRow}>
       <IonCol
