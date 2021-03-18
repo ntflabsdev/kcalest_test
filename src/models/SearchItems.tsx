@@ -1,18 +1,16 @@
-
-
 export interface ISearchItems {
     [item: string] : ISearchItem
 }
 
 export interface ISearchItem {
         id: string,
-        calories: string,
-        carbs: string,
-        fat: string,
+        calories: Number,
+        carbs: Number,
+        fat: Number,
         highProtein: boolean,
         name: string,
-        protein: string,
-        store: string,
+        protein: Number,
+        store: string, 
         vegetarian: boolean,
         vegan: boolean,
         imageUrl: string,

@@ -10,6 +10,36 @@
   color: var(--ion-color-primary-contrast, white);
 }
 
+.IconImages{
+  --width: 100%;
+  --min-width: auto;
+  --max-width: auto;
+  --height: 100%;
+  --min-height: auto;
+  --max-height: auto;
+  --border-radius: 0;
+  --border-width: 0;
+  --border-style: none;
+  --border-color: transparent;
+  --box-shadow: none;
+  --backdrop-opacity: var(--ion-backdrop-opacity, 0.32);
+  --background: var(--ion-background-color, #fff);
+  --color: var(--ion-text-color, #000);
+  --padding-top: 0px;
+  --padding-bottom: 0px;
+  --padding-start: 0px;
+  --padding-end: 0px;
+  --keyboard-offset: 0px;
+  --overflow: auto;
+  font-family: var(--ion-font-family, inherit);
+  --offset-top: 0px;
+  --offset-bottom: 0px;
+  color: var(--color);
+  visibility: inherit;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .ModalTopContent {
   align-items: center;
   display: flex;

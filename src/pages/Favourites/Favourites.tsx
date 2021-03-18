@@ -81,6 +81,7 @@ const Favourites: React.FC = () => {
           isAuthenticated={isAuthenticated}
           onCancel={searchItemModalCloseHandler}
           model={{ item: selectedItem, favourites: cachedUserFavourites }}
+          coordinates = {{lat: 1, lng: 2}}
         />
         <IonGrid className={styles.Grid}>
           <SearchItemList

@@ -11,12 +11,16 @@ import {
   IonAvatar,
   IonIcon,
   IonLabel,
+  IonSegment,
+  IonSegmentButton,
+  LocationHistory,
 } from "@ionic/react";
 import { closeCircle, filterSharp } from "ionicons/icons";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./SearchBox.module.css";
 import { IFilter } from "../../models/Filters";
+
 interface propType {
   getItemsHandler: (event: any, calories: any) => void;
   removeFilter: (id: string) => void;
@@ -26,7 +30,12 @@ interface propType {
 
 const SearchBox: React.FC<propType> = (props) => {
   const calories = useRef<HTMLIonInputElement>(null);
-
+  const [locationSelector, setLocationSelector] = useState("noLocation");
+  const onSegmentChange = (value: string | undefined) => {
+    if(value != undefined) {
+      setLocationSelector(value);
+    }
+  }
   return (
     <IonRow className={styles.LandingPageSearchBoxRow}>
       <IonCol
@@ -40,6 +49,21 @@ const SearchBox: React.FC<propType> = (props) => {
             <IonItem>
               <IonInput placeholder="Calories..." ref={calories}></IonInput>
             </IonItem>
+            <IonSegment onIonChange={e => onSegmentChange(e.detail.value)} value={locationSelector}>
+              <IonSegmentButton value="noLocation">
+                <IonLabel>No Location</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="userLocation">
+                <IonLabel>Near Me</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="enterLocation">
+                <IonLabel>Enter Location</IonLabel>
+              </IonSegmentButton>
+            </IonSegment>
+            {locationSelector === "enterLocation" && (<IonItem>
+              <IonInput placeholder="Enter Location..."></IonInput>
+            </IonItem>)}
+
             <IonButton
               expand="block"
               onClick={(e) => props.getItemsHandler(e, calories.current?.value)}

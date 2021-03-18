@@ -20,22 +20,27 @@ import {
   getCachedFavourites,
 } from "../../services/FavouritesService";
 
+
 const Home: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<ISearchItem | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [searchItems, setSearchItems] = useState<ISearchItem[] | null>(null);
   const [searchBoxErrorMessage, setSearchBoxErrorMessage] = useState<string>(
     ""
-  ); 
-  const [filters, setFilters] = useState([{id:'vegan', image:'Vegan.png'}, {id:'vegetarian', image:'Vegetarian.png'}]);
+  );
+  const [filters, setFilters] = useState([{ id: 'vegan', image: 'Vegan.png' }, { id: 'vegetarian', image: 'Vegetarian.png' }]);
   let cachedUserFavourites: String[] = getCachedFavourites();
 
   const getItemsHandler = (event: MouseEvent, calories: any) => {
     setSearchBoxErrorMessage("");
     const sanitisedCalories = Number.parseInt(calories);
+    let lowerLimit = sanitisedCalories / 100 * 90;
+    let upperLimit = sanitisedCalories / 100 * 110;
     if (!!calories && !!sanitisedCalories) {
-      const upperLimit = sanitisedCalories + 25;
-      const lowerLimit = sanitisedCalories - 25;
+      if (sanitisedCalories <= 250) {
+        upperLimit = sanitisedCalories + 25;
+        lowerLimit = sanitisedCalories - 25;
+      }
       event.preventDefault();
       firestore
         .collection("items")
@@ -46,12 +51,15 @@ const Home: React.FC = () => {
           const items = querySnapshot.docs.map((doc) => ({
             ...doc.data(),
           })) as ISearchItem[];
-          const fiveRandomItems = [];
-          for (let i = 0; i < 5; i++) {
-            const randomIndex = Number.parseInt((Math.random() * items.length).toFixed(0));
-            fiveRandomItems.push(items[randomIndex]);
-          }
-          setSearchItems(fiveRandomItems as ISearchItem[]);
+          if (items.length > 0) {
+            const fiveRandomItems = [];
+            for (let i = 0; i < 5; i++) {
+              const randomIndex = Number.parseInt((Math.random() * items.length).toFixed(0));
+              fiveRandomItems.push(items[randomIndex]);
+            } 
+            setSearchItems(fiveRandomItems as ISearchItem[]);
+          } else { 
+            setSearchBoxErrorMessage("No items found within this range") }
         });
     } else {
       setSearchBoxErrorMessage("please enter a number...");
@@ -101,13 +109,14 @@ const Home: React.FC = () => {
           isAuthenticated={!!firebaseAuth.currentUser}
           onCancel={searchItemModalCloseHandler}
           model={{ item: selectedItem, favourites: cachedUserFavourites }}
+          coordinates = {{lat: 1, lng: 2}}
         />
         <IonGrid className={styles.Grid}>
           <SearchBox
             getItemsHandler={getItemsHandler}
             errorMessage={searchBoxErrorMessage}
             removeFilter={removeFilter}
-            filters = {filters}
+            filters={filters}
           />
           <SearchItemList
             searchItems={searchItems}
@@ -120,3 +129,19 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+// console.log("Asking for users permissions")
+// // if(!Capacitor.isPluginAvailable('GeoLocation') && (isPlatform('mobile'))) {
+// //   console.log('Could not fetch location')
+// //   return
+// // }
+// const coordinates = useRef<{ lat: number; lng: number } | null>(null);
+// Plugins.Geolocation.getCurrentPosition()
+//   .then((geoPosition) => {
+//     coordinates.current = {
+//       lat: geoPosition.coords.latitude,
+//       lng: geoPosition.coords.longitude,
+//     };
+//   })
+//   .catch((err) => {
+//     console.log("didn't resolve geolocation");
+//   });

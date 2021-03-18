@@ -13,27 +13,28 @@ import {
   IonIcon,
   IonText,
   IonAvatar,
-  // isPlatform,
+  isPlatform,
 } from "@ionic/react";
 import { IModalData } from "../../models/User";
 import styles from "./SearchItemModal.module.css";
 import { heartOutline, heart } from "ionicons/icons";
 import GoogleMap from "../Map/GoogleMap";
 import {
+  Capacitor,
   Plugins,
   // Capacitor
 } from "@capacitor/core";
 import { auth } from "firebase";
-import { stringTo1DpNumber } from "../../utils/NumberUtils"
+import { roundToOneDp, roundToOneDpKcal } from "../../utils/NumberUtils"
 
 const SearchItemModal: React.FC<{
   showModal: boolean;
   onCancel: (id: string, isFavourite: boolean) => void;
   model: IModalData;
   isAuthenticated: boolean;
+  coordinates: {lat: number; lng: number};
 }> = (props) => {
   const [isFavourite, setIsFavourite] = useState(false);
-  const coordinates = useRef<{ lat: number; lng: number } | null>(null);
   useEffect(() => {
     setIsFavourite((prevState) => {
       let isFavouriteModel = false;
@@ -56,22 +57,9 @@ const SearchItemModal: React.FC<{
     );
   }
 
-  useEffect(() => {
-    // if(!Capacitor.isPluginAvailable('GeoLocation') && (isPlatform('mobile'))) {
-    //   console.log('Could not fetch location')
-    //   return
-    // }
-    Plugins.Geolocation.getCurrentPosition()
-      .then((geoPosition) => {
-        coordinates.current = {
-          lat: geoPosition.coords.latitude,
-          lng: geoPosition.coords.longitude,
-        };
-      })
-      .catch((err) => {
-        console.log("didn't resolve geolocation");
-      });
-  }, []);
+
+  
+
 
   const clickFavouriteHandler = () => {
     setIsFavourite((prevState) => {
@@ -112,25 +100,25 @@ const SearchItemModal: React.FC<{
           </IonRow>
           <IonRow>
             <IonCol size="4" offset="1">
-              <p>Calories: {props.model.item ? stringTo1DpNumber(props.model.item?.calories): "NA(click to report)"}</p>
-              {!!props.model.item?.carbs && (<p>Carbs: {stringTo1DpNumber(props.model.item?.carbs)}</p>)}
-              {!!props.model.item?.fat && (<p>Fat: {stringTo1DpNumber(props.model.item?.fat)}</p>)}
+              <p>Calories: {props.model.item ? roundToOneDpKcal(props.model.item?.calories): "NA(click to report)"}</p>
+              {!!props.model.item?.carbs && (<p>Carbs: {roundToOneDp(props.model.item?.carbs)}</p>)}
+              {!!props.model.item?.fat && (<p>Fat: {roundToOneDp(props.model.item?.fat)}</p>)}
+              {!!props.model.item?.protein && (<p>Protein: {roundToOneDp(props.model.item?.protein)}</p>)}
             </IonCol>
             <IonCol size="4" offset="1">
               <p>
                 High Protein: {props.model.item?.highProtein ? "Yes" : "No"}
               </p>
-              {!!props.model.item?.protein && (<p>Protein: {stringTo1DpNumber(props.model.item?.protein)}</p>)}
               {!!!props.model.item?.vegan && (<p>Vegetarian: {props.model.item?.vegetarian ? "Yes" : "No"}</p>)}
               {(!!props.model.item?.vegan ||!!props.model.item?.vegetarian) && (<p>Vegan: {props.model.item?.vegan ? "Yes" : "No"} </p>)}
             </IonCol>
           </IonRow>
           {props.isAuthenticated && (
-            <IonRow className={styles.gooleMapsRow}>
-              <IonCol className={styles.gooleMapsCol}>
+            <IonRow className={styles.googleMapsRow}>
+              <IonCol className={styles.googleMapsCol}>
                 <GoogleMap
                   store={props.model.item?.store}
-                  coordinates={coordinates.current}
+                  coordinates={props.coordinates}
                 />
               </IonCol>
             </IonRow>

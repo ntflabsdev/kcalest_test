@@ -12,6 +12,7 @@ import {
 
 import React from "react";
 import { ISearchItem } from "../../models/SearchItems";
+import { roundToOneDp, roundToOneDpKcal } from "../../utils/NumberUtils"
 
 interface propType {
   searchItems: ISearchItem[] | null,
@@ -55,14 +56,14 @@ const SearchItemList: React.FC<propType> = (props) => {
               <IonGrid>
                 <IonRow>
                   <IonCol>
-                    <p>Calories: {Number(item.calories).toFixed(1)}</p>
-                    {!!item.carbs && (<p>Carbs: {Number(item.carbs).toFixed(1)}</p>)}
-                    {!!item.fat && (<p>Fat: {Number(item.fat).toFixed(1)}</p>)}
+                    <p>Calories: {roundToOneDpKcal(item?.calories)}</p>
+                    {!!item.carbs && (<p>Carbs: {roundToOneDp(item?.carbs)}</p>)}
+                    {!!item.fat && (<p>Fat: {roundToOneDp(item?.fat)}</p>)}
+                    {!!item.protein && (<p>Protein: {roundToOneDp(item?.protein)}</p>)}
                   </IonCol>
                   <IonCol>
-                    <p>High Protein: {item.highProtein ? "Yes" : "No"}</p>
-                    {!!item.protein && (<p>Protein: {Number(item.protein).toFixed(1)}</p>)}
-                    {!!!item.vegan && (<p>Vegetarian: {item.vegetarian ? "Yes" : "No"}</p>)}
+                    <p>High Protein: {item?.highProtein ? "Yes" : "No"}</p>
+                    {!!!item?.vegan && (<p>Vegetarian: {item.vegetarian ? "Yes" : "No"}</p>)}
                     {(!!item?.vegan ||!!item?.vegetarian) && ( <p>Vegan: {item.vegan ? "Yes" : "No"}</p>)}
                   </IonCol>
                 </IonRow>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./GoogleMap.module.css";
-//import { Plugins } from "@capacitor/core";
+// import { Plugins } from "@capacitor/core/";
 import axios from "axios";
 import { functions } from "firebase";
 
