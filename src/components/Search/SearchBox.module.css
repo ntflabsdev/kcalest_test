@@ -48,6 +48,10 @@
     cursor: pointer;
   }
 
+  .SearchBoxDietButtonDisabled:hover {
+    cursor: default;
+  }
+
 
   .SearchBoxDietButtonAvatar {
     flex-grow: 8;
