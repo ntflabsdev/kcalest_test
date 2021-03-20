@@ -17,6 +17,7 @@ import {
 import { closeCircle } from "ionicons/icons";
 
 import React, { useRef, useState } from "react";
+import { getDietButtonStyles } from "../../services/SearchService";
 import styles from "./SearchBox.module.css";
 
 interface propType {
@@ -70,35 +71,15 @@ const SearchBox: React.FC<propType> = (props) => {
             <div className={styles.SearchBoxDietButtons}>
               {dietButtons.map((button) => {
 
-                let disbaled = false;
-                let dietButtonClasses = [styles.SearchBoxDietButton];
-                
-                if(props.filters.length > 0) {
-                  if(props.filters.includes("paleo") && (button.id === "vegan" || button.id === "vegetarian")) {
-                    dietButtonClasses.push(styles.SearchBoxDietButtonDisabled);
-                  }
-                  if((props.filters.includes("vegetarian") || props.filters.includes("vegan")) && (button.id === "paleo")) {
-                    dietButtonClasses.push(styles.SearchBoxDietButtonDisabled);
-                  }
-                  const combination = combinations[props.filters[0]];
-                  if(combination != undefined) {
-                    if (!combination.includes(button.id) && props.filters[0] !== button.id) {
-                      dietButtonClasses.push(styles.SearchBoxDietButtonDisabled);
-                      disbaled = true;
-                    }
-                  }
-                }
-               
-                if(props.filters.includes(button.id)) {
-                  dietButtonClasses.push(styles.SearchBoxDietButtonActive);
-                }
+        
+                let {dietButtonClasses, disabled} = getDietButtonStyles(styles,props,button.id,combinations[props.filters[0]]);
 
                 return (
                   <button
                     className={dietButtonClasses.join(" ")}
                     onClick={() => props.setFilter(button.id)}
                     key={button.id}
-                    disabled={disbaled}
+                    disabled={disabled}
                   >
                     <IonAvatar className={styles.SearchBoxDietButtonAvatar}>
                       <img src={require(`../../assets/icons/${button.image}`)} />
