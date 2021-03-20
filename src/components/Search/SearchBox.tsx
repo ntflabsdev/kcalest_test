@@ -74,6 +74,12 @@ const SearchBox: React.FC<propType> = (props) => {
                 let dietButtonClasses = [styles.SearchBoxDietButton];
                 
                 if(props.filters.length > 0) {
+                  if(props.filters.includes("paleo") && (button.id === "vegan" || button.id === "vegetarian")) {
+                    dietButtonClasses.push(styles.SearchBoxDietButtonDisabled);
+                  }
+                  if((props.filters.includes("vegetarian") || props.filters.includes("vegan")) && (button.id === "paleo")) {
+                    dietButtonClasses.push(styles.SearchBoxDietButtonDisabled);
+                  }
                   const combination = combinations[props.filters[0]];
                   if(combination != undefined) {
                     if (!combination.includes(button.id) && props.filters[0] !== button.id) {
