@@ -12,18 +12,12 @@ import {
   IonButtons,
   IonIcon,
   IonText,
-  IonAvatar,
-  isPlatform,
+  IonAvatar
 } from "@ionic/react";
 import { IModalData } from "../../models/User";
 import styles from "./SearchItemModal.module.css";
 import { heartOutline, heart } from "ionicons/icons";
 import GoogleMap from "../Map/GoogleMap";
-import {
-  Capacitor,
-  Plugins,
-  // Capacitor
-} from "@capacitor/core";
 import { auth } from "firebase";
 import { roundToOneDp, roundToOneDpKcal } from "../../utils/NumberUtils"
 

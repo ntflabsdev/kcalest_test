@@ -6,7 +6,7 @@ import {
   IonToolbar,
   IonGrid,
 } from "@ionic/react";
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, useEffect } from "react";
 import styles from "./Home.module.css";
 import { ISearchItem } from "../../models/SearchItems";
 import ToolbarButtons from "../../components/ToolbarButtons/ToolbarButtons";
@@ -104,6 +104,10 @@ const Home: React.FC = () => {
       removeFilter(id);
     }
   };
+
+  useEffect(() => {
+    console.log("filters", filters);
+  }, [filters]);
 
   const removeFilter = (id: string) => {
     const filtersClone = [...filters];

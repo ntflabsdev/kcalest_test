@@ -35,6 +35,15 @@
     padding: 5px 20px;
   }
 
+  .SearchBoxDietButtonActive {
+    background-color: var(--ion-color-primary);
+    color: white;
+  }
+
+  .SearchBoxDietButtonDisabled {
+    background-color: #c4c4c4;
+  }
+
   .SearchBoxDietButton:hover {
     cursor: pointer;
   }

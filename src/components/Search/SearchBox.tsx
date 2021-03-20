@@ -14,7 +14,7 @@ import {
   IonSegment,
   IonSegmentButton,
 } from "@ionic/react";
-import { closeCircle, filterSharp } from "ionicons/icons";
+import { closeCircle } from "ionicons/icons";
 
 import React, { useRef, useState } from "react";
 import styles from "./SearchBox.module.css";
@@ -28,9 +28,20 @@ interface propType {
   getCoordinates: () => void;
 }
 
-const combinations = {
+const dietButtons = [
+  { id: "anything", image: "Anything.png", text: "Anything"},
+  { id: "paleo", image: "Paleo.png", text: "Paleo" },
+  { id: "vegan", image: "Vegan.png", text: "Vegan" },
+  { id: "vegetarian", image: "Vegetarian.png", text: "Vegetarian" },
+  { id: "keto", image: "Keto.png", text: "Keto" },
+];
+
+const combinations: { [key: string]: string[]; } = {
+  anything: [],
+  paleo: ["keto"],
   vegetarian: ["vegan", "keto"],
-  vegan: ["keto"],
+  vegan: ["keto","vegetarian"],
+  keto: ["vegan","vegetarian","paleo"]
 };
 
 const SearchBox: React.FC<propType> = (props) => {
@@ -57,61 +68,41 @@ const SearchBox: React.FC<propType> = (props) => {
         <IonCard className={styles.LandingPageSearchBoxCard}>
           <IonCardContent>
             <div className={styles.SearchBoxDietButtons}>
-              <button
-                className={styles.SearchBoxDietButton}
-                onClick={() => props.setFilter("anything")}
-              >
-                <IonAvatar className={styles.SearchBoxDietButtonAvatar}>
-                  <img src={require(`../../assets/icons/Anything.png`)} />
-                </IonAvatar>
-                <IonText className={styles.SearchBoxDietButtonText}>
-                  Anything
-                </IonText>
-              </button>
-              <button
-                className={styles.SearchBoxDietButton}
-                onClick={() => props.setFilter("paleo")}
-              >
-                <IonAvatar className={styles.SearchBoxDietButtonAvatar}>
-                  <img src={require(`../../assets/icons/Paleo.png`)} />
-                </IonAvatar>
-                <IonText className={styles.SearchBoxDietButtonText}>
-                  Paleo
-                </IonText>
-              </button>
-              <button
-                className={styles.SearchBoxDietButton}
-                onClick={() => props.setFilter("vegan")}
-              >
-                <IonAvatar className={styles.SearchBoxDietButtonAvatar}>
-                  <img src={require(`../../assets/icons/Vegan.png`)} />
-                </IonAvatar>
-                <IonText className={styles.SearchBoxDietButtonText}>
-                  Vegan
-                </IonText>
-              </button>
-              <button
-                className={styles.SearchBoxDietButton}
-                onClick={() => props.setFilter("vegetarian")}
-              >
-                <IonAvatar className={styles.SearchBoxDietButtonAvatar}>
-                  <img src={require(`../../assets/icons/Vegetarian.png`)} />
-                </IonAvatar>
-                <IonText className={styles.SearchBoxDietButtonText}>
-                  Vegetarian
-                </IonText>
-              </button>
-              <button
-                className={styles.SearchBoxDietButton}
-                onClick={() => props.setFilter("keto")}
-              >
-                <IonAvatar className={styles.SearchBoxDietButtonAvatar}>
-                  <img src={require(`../../assets/icons/Keto.png`)} />
-                </IonAvatar>
-                <IonText className={styles.SearchBoxDietButtonText}>
-                  Keto
-                </IonText>
-              </button>
+              {dietButtons.map((button) => {
+
+                let disbaled = false;
+                let dietButtonClasses = [styles.SearchBoxDietButton];
+                
+                if(props.filters.length > 0) {
+                  const combination = combinations[props.filters[0]];
+                  if(combination != undefined) {
+                    if (!combination.includes(button.id) && props.filters[0] !== button.id) {
+                      dietButtonClasses.push(styles.SearchBoxDietButtonDisabled);
+                      disbaled = true;
+                    }
+                  }
+                }
+               
+                if(props.filters.includes(button.id)) {
+                  dietButtonClasses.push(styles.SearchBoxDietButtonActive);
+                }
+
+                return (
+                  <button
+                    className={dietButtonClasses.join(" ")}
+                    onClick={() => props.setFilter(button.id)}
+                    key={button.id}
+                    disabled={disbaled}
+                  >
+                    <IonAvatar className={styles.SearchBoxDietButtonAvatar}>
+                      <img src={require(`../../assets/icons/${button.image}`)} />
+                    </IonAvatar>
+                    <IonText className={styles.SearchBoxDietButtonText}>
+                      {button.text}
+                    </IonText>
+                  </button>
+                );
+              })}
             </div>
 
             <IonItem class="ion-margin-bottom">
