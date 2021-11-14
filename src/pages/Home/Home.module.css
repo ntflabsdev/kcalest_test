@@ -1,51 +1,59 @@
-body, html {
-    height: 100%;
-    margin: 0;
-  }
-  
-  .Toolbar {
-    background: linear-gradient(
-      -60deg,
-      #ffa012e8 30%,
-      var(--ion-color-primary) 60%
-    );
-  }
-  
-  .ToolbarTitle {
-    color: var(--ion-color-primary-contrast, white);
-  }
-  
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+.Toolbar {
+  background: linear-gradient(
+    -60deg,
+    #ffa012e8 30%,
+    var(--ion-color-primary) 60%
+  );
+}
+
+.ToolbarTitle {
+  color: var(--ion-color-primary-contrast, white);
+}
+
+.Grid {
+  display: flex;
+  flex-direction: column;
+  background-image: url("../../assets/kcalest-background-small-cream-cropped.png");
+  background-repeat: repeat-y;
+  background-size: 100%;
+  min-height: 100%;
+  height: auto;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
   .Grid {
-    background-image: url("../../assets/kcalest-background-small-cream-cropped.png");
-    background-repeat: repeat-y;
-    background-size: 100%;
-    min-height: 100%;
-    height: auto;
-    width: 100%;
+    background-image: url("../../assets/kcalest-background-vertical-cream-marked.png");
   }
-  
-  
-  @media (max-width: 767px) {
-  
-    .Grid {
-      background-image: url("../../assets/kcalest-background-vertical-cream-marked.png");
-    }
+}
+
+@media (min-width: 1025px) {
+  .modal-wrapper {
+    --width: 40%;
+    --height: 95%;
   }
-  
-  @media (min-width: 1025px) {
-  
-    .modal-wrapper {
-        --width: 40%;
-        --height: 95%;
-      }
-    
+}
+
+@media (min-width: 800px) and (max-width: 1024px) {
+  .modal-wrapper {
+    --width: 50%;
+    --height: 95%;
+  }
+}
+
+@media (min-width: 769px) {
+  .modal-wrapper {
+    --width: 50%;
+    --height: 95%;
   }
 
-  @media (min-width: 800px) and (max-width: 1024px){
-  
-    .modal-wrapper {
-        --width: 50%;
-        --height: 95%;
-      }
-    
+  .searchItemsRefreshFab {
+    margin-right: 23%;
   }
+}

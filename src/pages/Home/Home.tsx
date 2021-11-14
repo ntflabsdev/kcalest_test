@@ -5,8 +5,12 @@ import {
   IonTitle,
   IonToolbar,
   IonGrid,
+  IonFab,
+  IonFabButton,
+  IonIcon,
 } from "@ionic/react";
-import React, { useState, MouseEvent, useEffect } from "react";
+import React, { useState, MouseEvent, useEffect, useRef } from "react";
+import { add, refreshOutline } from "ionicons/icons";
 import styles from "./Home.module.css";
 import { ISearchItem } from "../../models/SearchItems";
 import ToolbarButtons from "../../components/ToolbarButtons/ToolbarButtons";
@@ -25,9 +29,8 @@ const Home: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<ISearchItem | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [searchItems, setSearchItems] = useState<ISearchItem[] | null>(null);
-  const [searchBoxErrorMessage, setSearchBoxErrorMessage] = useState<string>(
-    ""
-  );
+  const [searchBoxErrorMessage, setSearchBoxErrorMessage] =
+    useState<string>("");
   const [filters, setFilters] = useState<string[]>([]);
   const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
   let cachedUserFavourites: String[] = getCachedFavourites();
@@ -128,6 +131,11 @@ const Home: React.FC = () => {
       });
   };
 
+  const refreshSearchItemsHandler = () => {
+    let searchItemsButton = document.getElementById('searchItemsButton')
+    searchItemsButton?.click();
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -137,6 +145,13 @@ const Home: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        {searchItems !== null && (
+          <IonFab className={styles.searchItemsRefreshFab} vertical="bottom" horizontal="end" slot="fixed" onClick={refreshSearchItemsHandler}>
+            <IonFabButton>
+              <IonIcon icon={refreshOutline} />
+            </IonFabButton>
+          </IonFab>
+        )}
         <SearchItemModal
           showModal={showModal}
           isAuthenticated={!!firebaseAuth.currentUser}

@@ -119,6 +119,7 @@ const SearchBox: React.FC<propType> = (props) => {
               class="ion-margin-top"
               expand="block"
               onClick={(e) => props.getItemsHandler(e, calories.current?.value)}
+              id="searchItemsButton"
             >
               Search
             </IonButton>
