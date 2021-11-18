@@ -1,24 +1,9 @@
-import {
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonCol,
-  IonInput,
-  IonItem,
-  IonRow,
-  IonText,
-  IonChip,
-  IonAvatar,
-  IonIcon,
-  IonLabel,
-  IonSegment,
-  IonSegmentButton,
-} from "@ionic/react";
-import { closeCircle } from "ionicons/icons";
+import { IonCol, IonRow } from "@ionic/react";
 
 import React, { useRef, useState } from "react";
-import { getDietButtonStyles } from "../../services/SearchService";
+import SearchDisplay from "../Display/SearchDisplay/SearchDisplay";
 import styles from "./SearchBox.module.css";
+import ResturantDisplay from "../Display/ResturantDisplay/ResturantDisplay";
 
 interface propType {
   getItemsHandler: (event: any, calories: any) => void;
@@ -58,130 +43,46 @@ const SearchBox: React.FC<propType> = (props) => {
     }
   };
 
-  const searchBoxDisplay_Search = (
-    <div className={styles.Test}>
-      <div className={styles.SearchBoxDietButtons}>
-        {dietButtons.map((button) => {
-          let { dietButtonClasses, disabled } = getDietButtonStyles(
-            styles,
-            props,
-            button.id,
-            combinations[props.filters[0]]
-          );
-
-          return (
-            <button
-              className={dietButtonClasses.join(" ")}
-              onClick={() => props.setFilter(button.id)}
-              key={button.id}
-              disabled={disabled}
-            >
-              <IonAvatar className={styles.SearchBoxDietButtonAvatar}>
-                <img src={require(`../../assets/icons/${button.image}`)} />
-              </IonAvatar>
-              <IonText className={styles.SearchBoxDietButtonText}>
-                {button.text}
-              </IonText>
-            </button>
-          );
-        })}
-      </div>
-
-      <IonItem class="ion-margin-bottom">
-        <IonInput placeholder="Calories..." ref={calories}></IonInput>
-      </IonItem>
-      <IonSegment
-        onIonChange={(e) => onSegmentChange(e.detail.value)}
-        value={locationSelector}
-      >
-        <IonSegmentButton value="noLocation">
-          <IonLabel>No Location</IonLabel>
-        </IonSegmentButton>
-        <IonSegmentButton value="userLocation">
-          <IonLabel>Near Me</IonLabel>
-        </IonSegmentButton>
-        <IonSegmentButton value="enterLocation">
-          <IonLabel>Enter Location</IonLabel>
-        </IonSegmentButton>
-      </IonSegment>
-      {locationSelector === "enterLocation" && (
-        <IonItem>
-          <IonInput placeholder="Enter Location..."></IonInput>
-        </IonItem>
-      )}
-
-      <IonButton
-        class="ion-margin-top"
-        expand="block"
-        onClick={(e) => props.getItemsHandler(e, calories.current?.value)}
-        id="searchItemsButton"
-      >
-        Search
-      </IonButton>
-      {!!props.errorMessage && (
-        <IonItem lines="none">
-          <IonText color="warning">{props.errorMessage}</IonText>
-        </IonItem>
-      )}
-
-      {props.filters.map((filter) => {
-        return (
-          <IonChip key={filter}>
-            <IonAvatar>
-              <img src={require(`../../assets/icons/Vegan.png`)} />
-            </IonAvatar>
-            <IonLabel>{filter}</IonLabel>
-            <IonIcon
-              onClick={() => props.removeFilter(filter)}
-              icon={closeCircle}
-            />
-          </IonChip>
-        );
-      })}
-    </div>
+  const [displayTest, setDisplayTest] = useState(
+    <SearchDisplay
+      getItemsHandler={props.getItemsHandler}
+      errorMessage={props.errorMessage}
+      setFilter={props.setFilter}
+      removeFilter={props.removeFilter}
+      filters={props.filters}
+      getCoordinates={props.getCoordinates}
+    />
   );
 
-  const searchBoxDisplay_Resturant = <div></div>;
-  const searchBoxDisplay_Eco = <div></div>;
-
-  const [searchBoxDisplay, setSearchBoxDisplay] = useState(
-    searchBoxDisplay_Search
-  );
-  const [searchBoxDisplayStyles, setSearchBoxDisplayStyles] = useState([
-    styles.SearchBoxDisplay,
-    styles.backgroundColorWhite,
-  ]);
-
-  const updateSearchBoxDisplay = (value: string) => {
+  const dividerClickedHandler = (value: String) => {
     console.log(value);
     switch (value) {
       case "search":
-        setSearchBoxDisplay(searchBoxDisplay_Search);
-        setSearchBoxDisplayStyles([
-          styles.SearchBoxDisplay,
-          styles.backgroundColorWhite,
-        ]);
+        setDisplayTest(
+          <SearchDisplay
+            getItemsHandler={props.getItemsHandler}
+            errorMessage={props.errorMessage}
+            setFilter={props.setFilter}
+            removeFilter={props.removeFilter}
+            filters={props.filters}
+            getCoordinates={props.getCoordinates}
+          />
+        );
         break;
       case "resturant":
-        setSearchBoxDisplay(searchBoxDisplay_Resturant);
-        setSearchBoxDisplayStyles([
-          styles.SearchBoxDisplay,
-          styles.backgroundColorRed,
-        ]);
-        break;
-      case "eco":
-        setSearchBoxDisplay(searchBoxDisplay_Eco);
-        setSearchBoxDisplayStyles([
-          styles.SearchBoxDisplay,
-          styles.backgroundColorYellowGreen,
-        ]);
+        setDisplayTest(<ResturantDisplay />);
         break;
       default:
-        setSearchBoxDisplay(searchBoxDisplay_Search);
-        setSearchBoxDisplayStyles([
-          styles.SearchBoxDisplay,
-          styles.backgroundColorWhite,
-        ]);
+        setDisplayTest(
+          <SearchDisplay
+            getItemsHandler={props.getItemsHandler}
+            errorMessage={props.errorMessage}
+            setFilter={props.setFilter}
+            removeFilter={props.removeFilter}
+            filters={props.filters}
+            getCoordinates={props.getCoordinates}
+          />
+        );
     }
   };
 
@@ -193,25 +94,23 @@ const SearchBox: React.FC<propType> = (props) => {
         offsetMd="3"
         className={styles.LandingPageSearchBoxCol}
       >
-        <div className={searchBoxDisplayStyles.join(" ")}>
-          {searchBoxDisplay}
-        </div>
+        <div className={styles.SearchBoxDisplay}>{displayTest}</div>
         <div className={styles.SearchBoxDividers}>
           <button
             className={[styles.Divider, styles.Divider1].join(" ")}
-            onClick={() => updateSearchBoxDisplay("search")}
+            onClick={() => dividerClickedHandler("search")}
           >
             search
           </button>
           <button
             className={[styles.Divider, styles.Divider2].join(" ")}
-            onClick={() => updateSearchBoxDisplay("resturant")}
+            onClick={() => dividerClickedHandler("resturant")}
           >
             resturant
           </button>
           <button
             className={[styles.Divider, styles.Divider3].join(" ")}
-            onClick={() => updateSearchBoxDisplay("eco")}
+            onClick={() => dividerClickedHandler("eco")}
           >
             eco
           </button>

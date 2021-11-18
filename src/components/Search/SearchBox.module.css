@@ -17,9 +17,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px;
   min-height: 350px;
-  min-width: 100%;
+  min-width: 90%;
 }
 
 .SearchBoxDividers {
@@ -53,78 +52,9 @@
   background-color: greenyellow;
 }
 
-.backgroundColorWhite {
-  background-color: white;
-}
-
-.backgroundColorRed {
-  background-color: red;
-}
-
-.backgroundColorYellowGreen {
-  background-color: yellowgreen;
-}
-
-.LandingPageSearchBoxCard {
-  padding: 20px;
-}
-
-.SearchBoxDietButtons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-  align-items: center;
-}
-
-.SearchBoxDietButton {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: white;
-  color: var(--ion-color-primary);
-  font-weight: bold;
-  box-sizing: border-box;
-  padding: 10px 20px
-  
-}
-
-.SearchBoxDietButtonActive {
-  background-color: var(--ion-color-primary);
-  color: white;
-}
-
-.SearchBoxDietButtonDisabled {
-  background-color: #c4c4c4;
-}
-
-.SearchBoxDietButton:hover {
-  cursor: pointer;
-}
-
-.SearchBoxDietButtonDisabled:hover {
-  cursor: default;
-}
-
-.SearchBoxDietButtonAvatar {
-  flex-grow: 8;
-  margin-bottom: 5px;
-}
-
-.SearchBoxDietButtonText {
-  flex-grow: 2;
-}
-
 @media (max-width: 767px) {
   .LandingPageSearchBoxRow {
     padding-top: 0vh;
     height: auto;
-  }
-
-  .LandingPageSearchBoxCard {
-    padding: 0px;
   }
 }
