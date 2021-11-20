@@ -1,9 +1,10 @@
 import { IonCol, IonRow } from "@ionic/react";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SearchDisplay from "../Display/SearchDisplay/SearchDisplay";
 import styles from "./SearchBox.module.css";
 import ResturantDisplay from "../Display/ResturantDisplay/ResturantDisplay";
+import EcoDisplay from "../Display/EcoDisplay/EcoDisplay";
 
 interface propType {
   getItemsHandler: (event: any, calories: any) => void;
@@ -43,48 +44,14 @@ const SearchBox: React.FC<propType> = (props) => {
     }
   };
 
-  const [displayTest, setDisplayTest] = useState(
-    <SearchDisplay
-      getItemsHandler={props.getItemsHandler}
-      errorMessage={props.errorMessage}
-      setFilter={props.setFilter}
-      removeFilter={props.removeFilter}
-      filters={props.filters}
-      getCoordinates={props.getCoordinates}
-    />
-  );
-
-  const dividerClickedHandler = (value: String) => {
-    console.log(value);
-    switch (value) {
-      case "search":
-        setDisplayTest(
-          <SearchDisplay
-            getItemsHandler={props.getItemsHandler}
-            errorMessage={props.errorMessage}
-            setFilter={props.setFilter}
-            removeFilter={props.removeFilter}
-            filters={props.filters}
-            getCoordinates={props.getCoordinates}
-          />
-        );
-        break;
-      case "resturant":
-        setDisplayTest(<ResturantDisplay />);
-        break;
-      default:
-        setDisplayTest(
-          <SearchDisplay
-            getItemsHandler={props.getItemsHandler}
-            errorMessage={props.errorMessage}
-            setFilter={props.setFilter}
-            removeFilter={props.removeFilter}
-            filters={props.filters}
-            getCoordinates={props.getCoordinates}
-          />
-        );
-    }
+  const [display, setDisplay] = useState('search');
+  const dividerClickedHandler = (value: string) => {
+    setDisplay(value);
   };
+
+  useEffect(() => {
+    console.log("SearchBox: props ", props);
+  },[props.filters])
 
   return (
     <IonRow className={styles.LandingPageSearchBoxRow}>
@@ -94,7 +61,23 @@ const SearchBox: React.FC<propType> = (props) => {
         offsetMd="3"
         className={styles.LandingPageSearchBoxCol}
       >
-        <div className={styles.SearchBoxDisplay}>{displayTest}</div>
+        <div className={styles.SearchBoxDisplay}>
+          {display === 'search' && (
+            <SearchDisplay 
+            getItemsHandler={props.getItemsHandler}
+            errorMessage={props.errorMessage}
+            setFilter={props.setFilter}
+            removeFilter={props.removeFilter}
+            filters={props.filters}
+            getCoordinates={props.getCoordinates}/>
+          )}
+          {display === 'resturant' && (
+            <ResturantDisplay />
+          )}
+          {display === 'eco' && (
+            <EcoDisplay />
+          )}
+        </div>
         <div className={styles.SearchBoxDividers}>
           <button
             className={[styles.Divider, styles.Divider1].join(" ")}

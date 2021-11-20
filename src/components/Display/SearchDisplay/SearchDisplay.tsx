@@ -8,7 +8,7 @@ import {
   IonLabel,
   IonButton,
 } from "@ionic/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getDietButtonStyles } from "../../../services/SearchService";
 import styles from "./SearchDisplay.module.css";
 
@@ -38,6 +38,9 @@ const combinations: { [key: string]: string[] } = {
 };
 
 const SearchDisplay: React.FC<propType> = (props) => {
+  useEffect(() => {
+    console.log("SearchDisplay: props ", props);
+  },[props.filters])
   const calories = useRef<HTMLIonInputElement>(null);
   const [locationSelector, setLocationSelector] = useState("noLocation");
 
