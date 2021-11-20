@@ -102,21 +102,15 @@ const Home: React.FC = () => {
       filtersClone.filter((filter) => filter === id).length > 0;
     if (!isDuplicateValue) {
       filtersClone.push(id);
-      console.log(`[Home.tsx] set filters: ${filtersClone} id: ${id}`);
       setFilters(filtersClone);
     } else {
       removeFilter(id);
     }
   };
 
-  useEffect(() => {
-    console.log("filters", filters);
-  }, [filters]);
-
   const removeFilter = (id: string) => {
     const filtersClone = [...filters];
     const newFilters = filtersClone.filter((filter) => filter !== id);
-    console.log(`[Home.tsx] remove filters: ${newFilters} id: ${id}`);
     setFilters(newFilters);
   };
 

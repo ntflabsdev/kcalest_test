@@ -1,6 +1,6 @@
 import { IonCol, IonRow } from "@ionic/react";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import SearchDisplay from "../Display/SearchDisplay/SearchDisplay";
 import styles from "./SearchBox.module.css";
 import ResturantDisplay from "../Display/ResturantDisplay/ResturantDisplay";
@@ -15,26 +15,15 @@ interface propType {
   getCoordinates: () => void;
 }
 
-const dietButtons = [
-  { id: "anything", image: "Anything.png", text: "Anything" },
-  { id: "paleo", image: "Paleo.png", text: "Paleo" },
-  { id: "vegan", image: "Vegan.png", text: "Vegan" },
-  { id: "vegetarian", image: "Vegetarian.png", text: "Vegetarian" },
-  { id: "keto", image: "Keto.png", text: "Keto" },
-];
-
-const combinations: { [key: string]: string[] } = {
-  anything: [],
-  paleo: ["keto"],
-  vegetarian: ["vegan", "keto"],
-  vegan: ["keto", "vegetarian"],
-  keto: ["vegan", "vegetarian", "paleo"],
-};
-
 const SearchBox: React.FC<propType> = (props) => {
-  const calories = useRef<HTMLIonInputElement>(null);
+  const [display, setDisplay] = useState('search');
+  const [calories, setCalories] = useState('0');
   const [locationSelector, setLocationSelector] = useState("noLocation");
 
+  const dividerClickedHandler = (value: string) => {
+    setDisplay(value);
+  };
+  
   const onSegmentChange = (value: string | undefined) => {
     if (value != undefined) {
       setLocationSelector(value);
@@ -44,14 +33,11 @@ const SearchBox: React.FC<propType> = (props) => {
     }
   };
 
-  const [display, setDisplay] = useState('search');
-  const dividerClickedHandler = (value: string) => {
-    setDisplay(value);
+  const getCalories = (value: string | null | undefined) => {
+    if (value != undefined || value != null) {
+      setCalories(value);
+    }
   };
-
-  useEffect(() => {
-    console.log("SearchBox: props ", props);
-  },[props.filters])
 
   return (
     <IonRow className={styles.LandingPageSearchBoxRow}>
@@ -69,7 +55,12 @@ const SearchBox: React.FC<propType> = (props) => {
             setFilter={props.setFilter}
             removeFilter={props.removeFilter}
             filters={props.filters}
-            getCoordinates={props.getCoordinates}/>
+            getCoordinates={props.getCoordinates}
+            onSegmentChange={onSegmentChange}
+            locationSelector={locationSelector}
+            getCalories={getCalories}
+            calories={calories}
+            />
           )}
           {display === 'resturant' && (
             <ResturantDisplay />

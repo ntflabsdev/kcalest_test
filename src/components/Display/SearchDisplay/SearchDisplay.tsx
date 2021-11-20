@@ -8,7 +8,7 @@ import {
   IonLabel,
   IonButton,
 } from "@ionic/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { getDietButtonStyles } from "../../../services/SearchService";
 import styles from "./SearchDisplay.module.css";
 
@@ -19,6 +19,10 @@ interface propType {
   errorMessage: string;
   filters: string[];
   getCoordinates: () => void;
+  onSegmentChange : (value: string | undefined) => void;
+  locationSelector : string;
+  getCalories : (value: string | null | undefined) => void;
+  calories : string;
 }
 
 const dietButtons = [
@@ -38,20 +42,8 @@ const combinations: { [key: string]: string[] } = {
 };
 
 const SearchDisplay: React.FC<propType> = (props) => {
-  useEffect(() => {
-    console.log("SearchDisplay: props ", props);
-  },[props.filters])
-  const calories = useRef<HTMLIonInputElement>(null);
-  const [locationSelector, setLocationSelector] = useState("noLocation");
+  //const calories = useRef<HTMLIonInputElement>(null);
 
-  const onSegmentChange = (value: string | undefined) => {
-    if (value != undefined) {
-      setLocationSelector(value);
-      if (value === "userLocation") {
-        props.getCoordinates();
-      }
-    }
-  };
 
   return (
     <div className={styles.SearchBoxDisplaySearch}>
@@ -86,11 +78,11 @@ const SearchDisplay: React.FC<propType> = (props) => {
       </div>
 
       <IonItem class="ion-margin-bottom">
-        <IonInput placeholder="Calories..." ref={calories}></IonInput>
+        <IonInput placeholder="Calories..." value={props.calories} onIonChange={(e) => props.getCalories(e.detail.value)}></IonInput>
       </IonItem>
       <IonSegment
-        onIonChange={(e) => onSegmentChange(e.detail.value)}
-        value={locationSelector}
+        onIonChange={(e) => props.onSegmentChange(e.detail.value)}
+        value={props.locationSelector}
       >
         <IonSegmentButton value="noLocation">
           <IonLabel>No Location</IonLabel>
@@ -102,7 +94,7 @@ const SearchDisplay: React.FC<propType> = (props) => {
           <IonLabel>Enter Location</IonLabel>
         </IonSegmentButton>
       </IonSegment>
-      {locationSelector === "enterLocation" && (
+      {props.locationSelector === "enterLocation" && (
         <IonItem>
           <IonInput placeholder="Enter Location..."></IonInput>
         </IonItem>
@@ -111,7 +103,7 @@ const SearchDisplay: React.FC<propType> = (props) => {
       <IonButton
         class="ion-margin-top"
         expand="block"
-        onClick={(e) => props.getItemsHandler(e, calories.current?.value)}
+        onClick={(e) => props.getItemsHandler(e, props.calories)}
         id="searchItemsButton"
       >
         Search
