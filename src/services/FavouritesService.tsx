@@ -33,11 +33,15 @@ export function getFirebaseFavourites(): Promise<string[]> {
       .doc(uid)
       .get()
       .then((doc) => {
+        console.log('[FavouritesService.tsx] user: ', uid)
         const userInformation = doc.data() as IUserInformation;
+        console.log('[FavouritesService.tsx] user doc: ', userInformation)
         let trimmedFavourites: string[] = [];
-        userInformation.favourites.forEach((favourite) => {
-          trimmedFavourites.push(favourite.trim());
-        });
+        if(userInformation !== undefined) {
+          userInformation.favourites.forEach((favourite) => {
+            trimmedFavourites.push(favourite.trim());
+          });
+        }
         return trimmedFavourites;
       });
   } else {

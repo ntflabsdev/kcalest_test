@@ -1,74 +1,60 @@
+.Test {
+  display: flex;
+  flex-direction: column;
+}
+
 .LandingPageSearchBoxRow {
-    padding-top: 31vh;
-  }
+  padding-top: 31vh;
+}
+
+.LandingPageSearchBoxCol {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.SearchBoxDisplay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 350px;
+  min-width: 90%;
+}
+
+.SearchBoxDividers {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+}
+
+.Divider {
+  transform: rotate(90deg);
+  position: absolute;
+  transform-origin: 15px 15px;
+  padding: 8px 12px;
+  border-radius: 10px 10px 0px 0px;
   
-  .LandingPageSearchBoxCol {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0px;
-  }
-  
-  .LandingPageSearchBoxCard {
-    padding: 20px;
-  }
+}
 
-  .SearchBoxDietButtons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
+.Divider1 {
+  border: solid black 0.5px ;
+  border-bottom: none;
+  background-color: white;
+}
 
-  .SearchBoxDietButton {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background:  white;
-    color: var(--ion-color-primary);
-    font-weight: bold;
-    height: 5%;
-    box-sizing: border-box;
-    padding: 5px 20px;
-  }
+.Divider2 {
+  top: 70px;
+  background-color: red;
+}
 
-  .SearchBoxDietButtonActive {
-    background-color: var(--ion-color-primary);
-    color: white;
-  }
+.Divider3 {
+  top: 148px;
+  background-color: greenyellow;
+}
 
-  .SearchBoxDietButtonDisabled {
-    background-color: #c4c4c4;
+@media (max-width: 767px) {
+  .LandingPageSearchBoxRow {
+    padding-top: 0vh;
+    height: auto;
   }
-
-  .SearchBoxDietButton:hover {
-    cursor: pointer;
-  }
-
-  .SearchBoxDietButtonDisabled:hover {
-    cursor: default;
-  }
-
-
-  .SearchBoxDietButtonAvatar {
-    flex-grow: 8;
-    margin-bottom: 5px;
-  }
-
-  .SearchBoxDietButtonText {
-    flex-grow: 2;
-  }
-
-  @media (max-width: 767px) {
-    .LandingPageSearchBoxRow {
-      padding-top: 0vh;
-      height: auto;
-    }
-  
-    .LandingPageSearchBoxCard {
-      padding: 0px;
-    }
-  }
+}

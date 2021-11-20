@@ -20,18 +20,9 @@ interface propType {
 }
 
 const SearchItemList: React.FC<propType> = (props) => {
-  let searchItemsList = (
-    <IonCard className="ion-text-center">
-      <IonCardContent>
-        <p>Add search filters to display items</p>
-      </IonCardContent>
-    </IonCard>
-  );
-
-  if (props.searchItems != null) {
-    searchItemsList = (
+    let searchItemsList = (
       <div>
-        {props.searchItems.map((item) => (
+        {props.searchItems !== null && (props.searchItems.map((item) => (
           <IonCard
             key={Math.random() * 10}
             onClick={() => props.itemClickedHandler(item)}
@@ -70,10 +61,9 @@ const SearchItemList: React.FC<propType> = (props) => {
               </IonGrid>
             </IonCardContent>
           </IonCard>
-        ))}
+        )))}
       </div>
     );
-  }
 
   return (
     <IonRow>

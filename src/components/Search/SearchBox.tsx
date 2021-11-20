@@ -1,24 +1,10 @@
-import {
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonCol,
-  IonInput,
-  IonItem,
-  IonRow,
-  IonText,
-  IonChip,
-  IonAvatar,
-  IonIcon,
-  IonLabel,
-  IonSegment,
-  IonSegmentButton,
-} from "@ionic/react";
-import { closeCircle } from "ionicons/icons";
+import { IonCol, IonRow } from "@ionic/react";
 
 import React, { useRef, useState } from "react";
-import { getDietButtonStyles } from "../../services/SearchService";
+import SearchDisplay from "../Display/SearchDisplay/SearchDisplay";
 import styles from "./SearchBox.module.css";
+import ResturantDisplay from "../Display/ResturantDisplay/ResturantDisplay";
+import EcoDisplay from "../Display/EcoDisplay/EcoDisplay";
 
 interface propType {
   getItemsHandler: (event: any, calories: any) => void;
@@ -29,32 +15,27 @@ interface propType {
   getCoordinates: () => void;
 }
 
-const dietButtons = [
-  { id: "anything", image: "Anything.png", text: "Anything"},
-  { id: "paleo", image: "Paleo.png", text: "Paleo" },
-  { id: "vegan", image: "Vegan.png", text: "Vegan" },
-  { id: "vegetarian", image: "Vegetarian.png", text: "Vegetarian" },
-  { id: "keto", image: "Keto.png", text: "Keto" },
-];
-
-const combinations: { [key: string]: string[]; } = {
-  anything: [],
-  paleo: ["keto"],
-  vegetarian: ["vegan", "keto"],
-  vegan: ["keto","vegetarian"],
-  keto: ["vegan","vegetarian","paleo"]
-};
-
 const SearchBox: React.FC<propType> = (props) => {
-  const calories = useRef<HTMLIonInputElement>(null);
+  const [display, setDisplay] = useState('search');
+  const [calories, setCalories] = useState('0');
   const [locationSelector, setLocationSelector] = useState("noLocation");
 
+  const dividerClickedHandler = (value: string) => {
+    setDisplay(value);
+  };
+  
   const onSegmentChange = (value: string | undefined) => {
     if (value != undefined) {
       setLocationSelector(value);
       if (value === "userLocation") {
         props.getCoordinates();
       }
+    }
+  };
+
+  const getCalories = (value: string | null | undefined) => {
+    if (value != undefined || value != null) {
+      setCalories(value);
     }
   };
 
@@ -66,84 +47,48 @@ const SearchBox: React.FC<propType> = (props) => {
         offsetMd="3"
         className={styles.LandingPageSearchBoxCol}
       >
-        <IonCard className={styles.LandingPageSearchBoxCard}>
-          <IonCardContent>
-            <div className={styles.SearchBoxDietButtons}>
-              {dietButtons.map((button) => {
-
-        
-                let {dietButtonClasses, disabled} = getDietButtonStyles(styles,props,button.id,combinations[props.filters[0]]);
-
-                return (
-                  <button
-                    className={dietButtonClasses.join(" ")}
-                    onClick={() => props.setFilter(button.id)}
-                    key={button.id}
-                    disabled={disabled}
-                  >
-                    <IonAvatar className={styles.SearchBoxDietButtonAvatar}>
-                      <img src={require(`../../assets/icons/${button.image}`)} />
-                    </IonAvatar>
-                    <IonText className={styles.SearchBoxDietButtonText}>
-                      {button.text}
-                    </IonText>
-                  </button>
-                );
-              })}
-            </div>
-
-            <IonItem class="ion-margin-bottom">
-              <IonInput placeholder="Calories..." ref={calories}></IonInput>
-            </IonItem>
-            <IonSegment
-              onIonChange={(e) => onSegmentChange(e.detail.value)}
-              value={locationSelector}
-            >
-              <IonSegmentButton value="noLocation">
-                <IonLabel>No Location</IonLabel>
-              </IonSegmentButton>
-              <IonSegmentButton value="userLocation">
-                <IonLabel>Near Me</IonLabel>
-              </IonSegmentButton>
-              <IonSegmentButton value="enterLocation">
-                <IonLabel>Enter Location</IonLabel>
-              </IonSegmentButton>
-            </IonSegment>
-            {locationSelector === "enterLocation" && (
-              <IonItem>
-                <IonInput placeholder="Enter Location..."></IonInput>
-              </IonItem>
-            )}
-
-            <IonButton
-              class="ion-margin-top"
-              expand="block"
-              onClick={(e) => props.getItemsHandler(e, calories.current?.value)}
-            >
-              Search
-            </IonButton>
-            {!!props.errorMessage && (
-              <IonItem lines="none">
-                <IonText color="warning">{props.errorMessage}</IonText>
-              </IonItem>
-            )}
-
-            {props.filters.map((filter) => {
-              return (
-                <IonChip key={filter}>
-                  <IonAvatar>
-                    <img src={require(`../../assets/icons/Vegan.png`)} />
-                  </IonAvatar>
-                  <IonLabel>{filter}</IonLabel>
-                  <IonIcon
-                    onClick={() => props.removeFilter(filter)}
-                    icon={closeCircle}
-                  />
-                </IonChip>
-              );
-            })}
-          </IonCardContent>
-        </IonCard>
+        <div className={styles.SearchBoxDisplay}>
+          {display === 'search' && (
+            <SearchDisplay 
+            getItemsHandler={props.getItemsHandler}
+            errorMessage={props.errorMessage}
+            setFilter={props.setFilter}
+            removeFilter={props.removeFilter}
+            filters={props.filters}
+            getCoordinates={props.getCoordinates}
+            onSegmentChange={onSegmentChange}
+            locationSelector={locationSelector}
+            getCalories={getCalories}
+            calories={calories}
+            />
+          )}
+          {display === 'resturant' && (
+            <ResturantDisplay />
+          )}
+          {display === 'eco' && (
+            <EcoDisplay />
+          )}
+        </div>
+        <div className={styles.SearchBoxDividers}>
+          <button
+            className={[styles.Divider, styles.Divider1].join(" ")}
+            onClick={() => dividerClickedHandler("search")}
+          >
+            search
+          </button>
+          <button
+            className={[styles.Divider, styles.Divider2].join(" ")}
+            onClick={() => dividerClickedHandler("resturant")}
+          >
+            resturant
+          </button>
+          <button
+            className={[styles.Divider, styles.Divider3].join(" ")}
+            onClick={() => dividerClickedHandler("eco")}
+          >
+            eco
+          </button>
+        </div>
       </IonCol>
     </IonRow>
   );
