@@ -153,7 +153,7 @@ const Home: React.FC = () => {
           isAuthenticated={!!firebaseAuth.currentUser}
           onCancel={searchItemModalCloseHandler}
           model={{ item: selectedItem, favourites: cachedUserFavourites }}
-          coordinates={{ lat: 1, lng: 2 }}
+          coordinates={coordinates}
         />
         <IonGrid className={styles.Grid}>
           <SearchBox
