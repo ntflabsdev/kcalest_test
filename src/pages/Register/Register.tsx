@@ -25,7 +25,7 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState({ loading: false, error: false });
-  const [errorMessage, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const registerHandler = () => {
     setStatus({ loading: true, error: false });
     register(email, password)
@@ -37,7 +37,7 @@ const Register: React.FC = () => {
       .catch((e) => { 
         console.log("caught error in registration page: ", e);
         setStatus({ loading: false, error: true });
-        setError(e);
+        setErrorMessage(e);
       });
     
   };
