@@ -25,17 +25,20 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState({ loading: false, error: false });
-
+  const [errorMessage, setErrorMessage] = useState("");
   const registerHandler = () => {
-    try {
-      setStatus({loading: true, error: false});
-      register(email, password);
-      setStatus({loading: false, error: false});
-      setEmail('');
-      setPassword('');
-    } catch(e) {
-      console.log('error in register page: ', e);
-    }
+    setStatus({ loading: true, error: false });
+    register(email, password)
+      .then((result) => {
+        setStatus({ loading: false, error: false });
+        setEmail("");
+        setPassword("");
+      })
+      .catch((e) => { 
+        console.log("caught error in registration page: ", e);
+        setStatus({ loading: false, error: true });
+        setErrorMessage(e);
+      });
     
   };
 
@@ -81,7 +84,7 @@ const Register: React.FC = () => {
                   />
                 </IonItem>
                 {status.error && (
-                  <IonText color="danger">Registration failed</IonText>
+                  <IonText color="danger">{errorMessage.toString().substring(6)}</IonText>
                 )}
               </IonList>
               <IonButton onClick={registerHandler}>Create Account</IonButton>
