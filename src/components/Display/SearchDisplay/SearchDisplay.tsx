@@ -27,7 +27,7 @@ interface propType {
 
 const dietButtons = [
   { id: "anything", image: "Anything.png", text: "Anything" },
-  { id: "paleo", image: "Paleo.png", text: "Paleo" },
+  // { id: "paleo", image: "Paleo.png", text: "Paleo" },
   { id: "vegan", image: "Vegan.png", text: "Vegan" },
   { id: "vegetarian", image: "Vegetarian.png", text: "Vegetarian" },
   { id: "keto", image: "Keto.png", text: "Keto" },
@@ -38,7 +38,7 @@ const combinations: { [key: string]: string[] } = {
   paleo: ["keto"],
   vegetarian: ["vegan", "keto"],
   vegan: ["keto", "vegetarian"],
-  keto: ["vegan", "vegetarian", "paleo"],
+  keto: ["vegan", "vegetarian"],
 };
 
 const SearchDisplay: React.FC<propType> = (props) => {

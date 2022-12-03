@@ -1,4 +1,4 @@
-import { IonCol, IonRow } from "@ionic/react";
+import { IonCol, IonRow, IonText } from "@ionic/react";
 
 import React, { useRef, useState } from "react";
 import SearchDisplay from "../Display/SearchDisplay/SearchDisplay";
