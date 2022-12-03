@@ -29,14 +29,13 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState({ loading: false, error: false });
 
-  const loginHandler = () => {
+   const loginHandler = () => {
     setStatus({ loading: true, error: false });
-    login(email, password)
-      .then((result) => {
+     login(email, password).then((result) => {
+      if(status.loading) {
         setStatus({ loading: false, error: false });
-        setEmail("");
-        setPassword("");
-      })
+      }
+     })
       .catch((e) => {
         console.log("caught error in log in page: ", e);
         setStatus({ loading: false, error: true });

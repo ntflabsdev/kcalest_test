@@ -30,9 +30,9 @@ const Register: React.FC = () => {
     setStatus({ loading: true, error: false });
     register(email, password)
       .then((result) => {
-        setStatus({ loading: false, error: false });
-        setEmail("");
-        setPassword("");
+        if(status.loading) {
+          setStatus({ loading: false, error: false });
+        }
       })
       .catch((e) => { 
         console.log("caught error in registration page: ", e);

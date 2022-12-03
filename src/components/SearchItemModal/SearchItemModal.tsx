@@ -123,7 +123,7 @@ const SearchItemModal: React.FC<{
       <IonButton
         onClick={() => props.onCancel(props.model.item!.id, isFavourite)}
       >
-        Close Modal
+        Close
       </IonButton>
     </IonModal>
   );
