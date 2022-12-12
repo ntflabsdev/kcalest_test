@@ -21,7 +21,7 @@ Front-end code for kcalest.
 	npm start
 
 
-### Run On Docker
+#### Run On Docker
    *You need to install docker in your machine*
 
    Download firebase.ts file and add it to `KCalest/src/`
