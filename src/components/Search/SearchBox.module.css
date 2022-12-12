@@ -38,17 +38,20 @@
 
 .Divider1 {
   border: solid black 0.5px ;
+  color: black;
   border-bottom: none;
   background-color: white;
 }
 
 .Divider2 {
   top: 70px;
+  color: black;
   background-color: red;
 }
 
 .Divider3 {
   top: 148px;
+  color: black;
   background-color: greenyellow;
 }
 

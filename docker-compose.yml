@@ -1,0 +1,8 @@
+version: "3.3"
+services:
+  example:
+    build: .
+    ports:
+    - "8100:8100"
+    volumes:
+     - .:/app
