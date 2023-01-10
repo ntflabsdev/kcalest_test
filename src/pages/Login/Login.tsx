@@ -65,6 +65,7 @@ const Login: React.FC = () => {
                 <IonItem>
                   <IonLabel position="stacked">Email</IonLabel>
                   <IonInput
+                    data-testid="emailAddress"
                     type="email"
                     value={email}
                     onIonChange={(event) =>
@@ -75,6 +76,7 @@ const Login: React.FC = () => {
                 <IonItem>
                   <IonLabel position="stacked">Password</IonLabel>
                   <IonInput
+                    data-testid="password"
                     type="password"
                     value={password}
                     onIonChange={(event) =>

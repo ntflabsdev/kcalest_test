@@ -92,7 +92,7 @@ const App: React.FC = () => {
     );
   }
   return (
-    <IonApp>
+    <IonApp data-testid="app">
       <IonToast
         isOpen={!!firebaseAuth.currentUser}
         onDidDismiss={undefined}
