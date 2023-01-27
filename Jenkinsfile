@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Code Anylasis') {
             when {
-                branch "dependabot/npm_and_yarn/loader-utils-and-react-scripts-2.0.4"
+                branch "PR-*"
             }
            steps {
               withSonarQubeEnv('qube') {
