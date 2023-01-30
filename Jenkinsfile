@@ -10,9 +10,6 @@ pipeline {
 
     stages {
         stage('dependencies install') {
-            when {
-                branch "dependabot/npm_and_yarn/loader-utils-and-react-scripts-2.0.4"
-            }
             steps {
                 sh 'npm install'
                 sh 'cp -avpr /opt/firebase.ts src/'
