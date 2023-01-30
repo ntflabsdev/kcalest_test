@@ -12,6 +12,8 @@ pipeline {
         stage('dependencies install') {
             steps {
                 sh 'cp -avpr /opt/firebase.ts src/'
+                sh 'npm install'
+                sh 'npm test'
             }
     }
         
