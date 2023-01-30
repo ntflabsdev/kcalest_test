@@ -27,5 +27,13 @@ pipeline {
               }
                 }       
           }
+        stage('Quality Gateway') {
+            when {
+                branch "PR-*"
+            }
+           steps {
+                waitForQualityGate abortPipeline: true
+                }       
+          }
     }
 }
