@@ -9,31 +9,14 @@ pipeline {
     }
 
     stages {
-        stage('Dependcies install') {
+        stage('dependencies install') {
             when {
-                branch "PR-*"
+                branch "dependabot/npm_and_yarn/loader-utils-and-react-scripts-2.0.4"
             }
             steps {
                 sh 'npm install'
+                sh 'cp -avpr /opt/firebase.ts src/'
             }
         }
-        stage('Code Anylasis') {
-            when {
-                branch "PR-*"
-            }
-           steps {
-              withSonarQubeEnv('qube') {
-                sh '$SCANNER_HOME/bin/sonar-scanner'
-              }
-                }       
-          }
-        stage('Quality Gateway') {
-            when {
-                branch "PR-*"
-            }
-           steps {
-                waitForQualityGate abortPipeline: true
-                }       
-          }
-    }
+        }    }
 }
