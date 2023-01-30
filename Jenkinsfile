@@ -9,23 +9,13 @@ pipeline {
     }
 
     stages {
-        stage('Dependcies install') {
-            when {
-                branch "PR-*"
-            }
+        stage('dependencies install') {
             steps {
                 sh 'npm install'
+                sh 'cp -avpr /opt/firebase.ts src/'
             }
-        }
-        stage('Code Anylasis') {
-            when {
-                branch "PR-*"
-            }
-           steps {
-              withSonarQubeEnv('qube') {
-                sh '$SCANNER_HOME/bin/sonar-scanner'
-              }
-                }       
-          }
     }
+        
+        } 
+           }
 }
