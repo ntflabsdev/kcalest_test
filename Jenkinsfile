@@ -12,7 +12,7 @@ pipeline {
         stage('dependencies install') {
             steps {
                 sh 'cp -avpr /opt/firebase.ts src/'
-                sh 'npm install'
+                sh 'echo "Latest Commit SHA: $GIT_COMMIT"'
                 sh 'npm test'
             }
     }
