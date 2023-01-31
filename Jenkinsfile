@@ -12,6 +12,7 @@ pipeline {
         stage('Checking Git commit SHA') {
             steps {
                 // sh 'cp -avpr /opt/firebase.ts src/'
+                sh 'npm test'
                 sh 'echo "Latest Commit SHA: $GIT_COMMIT"'
             }
 
