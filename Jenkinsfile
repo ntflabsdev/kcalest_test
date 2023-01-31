@@ -20,8 +20,14 @@ pipeline {
 
     post {
     always {
-        sh 'curl -X POST -H "Authorization: token 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" -H "Content-Type: application/json" -d "{\\"state\\":\\"success\\",\\"target_url\\":\\"$BUILD_URL\\",\\"description\\":\\"Unit tests passed\\",\\"context\\":\\"jenkins/unit-tests\\"}" https://api.github.com/repos/ntflabsdev/kcalest_test/statuses/$GIT_COMMIT'
-
+        
+        sh 'curl \
+        -X POST \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer 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"\
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        https://api.github.com/repos/OWNER/REPO/statuses/$GIT_COMMIT \
+        -d "{\\"state\\":\\"success\\",\\"target_url\\":\\"$BUILD_URL\\",\\"description\\":\\"Unit tests passed\\",\\"context\\":\\"continuous-integration/jenkins\\"}"'
     }
 }
 
