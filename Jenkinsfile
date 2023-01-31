@@ -27,7 +27,7 @@ pipeline {
         -H "Authorization: Bearer $GITHUB_SECRET_TOKEN"\
         -H "X-GitHub-Api-Version: 2022-11-28" \
         https://api.github.com/repos/ntflabsdev/kcalest_test/statuses/$GIT_COMMIT \
-        -d "{\\"state\\":\\"success\\",\\"target_url\\":\\"$BUILD_URL\\",\\"description\\":\\"Unit tests passed\\",\\"context\\":\\"continuous-integration/jenkins\\"}"'
+        -d "{\\"state\\":\\"success\\",\\"target_url\\":\\"$BUILD_URL\\",\\"description\\":\\"Unit tests passed on kcalest\\",\\"context\\":\\"continuous-integration/jenkins\\"}"'
     }
 }
 
