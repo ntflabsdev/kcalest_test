@@ -19,6 +19,9 @@ pipeline {
     }
 
     post {
+        when {
+            branch "PR-*"
+        }
     always {
         
         sh 'curl \
